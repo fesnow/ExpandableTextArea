@@ -115,9 +115,10 @@
 	
 	// get a rect for the textView frame
 	CGRect containerFrame = [self textArea].frame;
-	containerFrame.origin.y -= kbSizeH;
-	CGRect scrollViewFrame = [self scrollView].frame;	
-	scrollViewFrame.size.height -=kbSizeH;
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+	containerFrame.origin.y = screenRect.size.height - kbSizeH - containerFrame.size.height;
+	CGRect scrollViewFrame = [self scrollView].frame;
+	scrollViewFrame.size.height = containerFrame.origin.y;
 	
 	// animations settings
 	[UIView beginAnimations:nil context:NULL];
@@ -162,7 +163,7 @@
 -(void)heightOfTextViewDidChange:(float)height
 {
 	CGRect scrollViewFrame = [self scrollView].frame;	
-	scrollViewFrame.size.height +=height;
+	scrollViewFrame.size.height += height;
 	[[self scrollView]setFrame: scrollViewFrame];
 	[[self scrollView] reloadContentSize];
 }
